@@ -24,7 +24,7 @@ $ packer build centos-base.json
 $ terraform apply  
 ```
     
-***Note:***  Add the host entry in  `/etc/hosts` file with `<PUBLIC-IP> ei.wso2test.com`  to access the  API Manager console. 
+***Note:***  Add the host entry in  `/etc/hosts` file with `<PUBLIC-IP> ei.wso2test.com`  to access the  WSO2 Enterprise Integrator console. 
 
 4. Try navigating to the following consoles from your favorite browser.
 
