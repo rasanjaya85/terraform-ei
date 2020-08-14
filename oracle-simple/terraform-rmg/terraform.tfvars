@@ -1,0 +1,6 @@
+user_ocid        = "*********************"
+tenancy_ocid     = "*********************"
+compartment_ocid = "*********************"
+fingerprint      = "*********************"
+region           = "ap-tokyo-1"
+ssh_public_key   = "ssh-keys/oracle-ssh.pub"

@@ -1,0 +1,36 @@
+#!/bin/bash
+
+LOG_DIRECTORY='/tmp/'
+
+ADMIN_USER='sys'
+ADMIN_PASSWORD='${db_admin_password}'
+CONNECTION_STRING='${db_connection_strings}'
+DB_HOME='/home/opc/dbscripts'
+USER_PASSWORD="BEstr11ng_#12"
+
+sqlplus64 -s <<EOF  > $LOG_DIRECTORY/query.log
+$ADMIN_USER/$ADMIN_PASSWORD@$CONNECTION_STRING as sysdba
+
+alter session set "_ORACLE_SCRIPT"=true;
+
+CREATE USER gov_db IDENTIFIED BY "$USER_PASSWORD";
+GRANT CONNECT, RESOURCE, DBA TO gov_db;
+GRANT UNLIMITED TABLESPACE TO gov_db;
+
+CREATE USER user_db IDENTIFIED BY "$USER_PASSWORD";
+GRANT CONNECT, RESOURCE, DBA TO user_db;
+GRANT UNLIMITED TABLESPACE TO user_db;
+
+EOF
+
+sqlplus64 -s <<EOF  > $LOG_DIRECTORY/query.log
+gov_db/$USER_PASSWORD@$CONNECTION_STRING
+
+@$DB_HOME/oracle.sql
+EOF
+
+sqlplus64 -s <<EOF  > $LOG_DIRECTORY/query.log
+user_db/$USER_PASSWORD@$CONNECTION_STRING
+
+@$DB_HOME/oracle.sql
+EOF

@@ -1,0 +1,52 @@
+{
+  "builders": [
+    {
+	  "user_ocid": "*********************",
+	  "tenancy_ocid": "*********************",
+	  "fingerprint": "*********************",
+	  "key_file": "~/.oci/oci_api_key.pem",
+	  "availability_domain": "FGKd:AP-TOKYO-1-AD-1",
+      "region": "ap-tokyo-1",
+      "base_image_ocid": "*********************",
+      "compartment_ocid": "*********************",
+      "image_name": "packer-apim-oci",
+      "shape": "VM.Standard.E2.1",
+      "ssh_username": "opc",
+	  "ssh_password": "welcome1",
+      "subnet_ocid": "*********************",
+      "type": "oracle-oci"
+    }
+  ],
+  "provisioners": [
+    {
+      "type": "file",
+      "source": "./rpms",
+      "destination": "/home/opc"
+    },
+    {
+      "type": "file",
+      "source": "./dbscripts",
+      "destination": "/home/opc"
+    },
+    {
+      "type": "file",
+      "source": "./ansible-ei",
+      "destination": "/home/opc"
+    },
+    {
+      "type": "file",
+      "source": "./scripts",
+      "destination": "/home/opc"
+    },
+    {
+      "type": "shell",
+      "execute_command": "echo 'opc' | {{.Vars}} sudo -S -E bash '{{.Path}}'",
+      "inline": ["bash /home/opc/scripts/cleanup.sh "]
+    },
+    {
+      "type": "shell",
+      "execute_command": "echo 'opc' | {{.Vars}} sudo -S -E bash '{{.Path}}'",
+      "inline": ["rm -rf  /home/opc/scripts"]
+    }
+  ]
+}
